@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -18,21 +18,52 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="주파수 JUPASU · 세대의 말을 서로 배우는 곳">
+  <meta name="theme-color" content="#0E0E12">
+
+  <!-- 공유 미리보기 -->
+  <meta property="og:title" content="주파수 JUPASU">
+  <meta property="og:description" content="세대의 말을 서로 배우는 곳">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="jupasu">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="apple-mobile-web-app-title" content="주파수">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
   <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>jupasu</title>
+  <title>주파수 JUPASU</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- 실행 화면: Flutter 가 첫 화면을 그리면 걷어 낸다 -->
+  <style>
+    html, body { margin: 0; height: 100%; background: #0E0E12; }
+    #splash { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+              transition: opacity .3s ease; }
+    #splash.hide { opacity: 0; pointer-events: none; }
+    .splash-logo { width: 96px; height: auto; }
+    .splash-logo rect { animation: eq 1.2s ease-in-out infinite; }
+    .splash-logo rect:nth-child(2) { animation-delay: .15s; }
+    .splash-logo rect:nth-child(3) { animation-delay: .3s; }
+    .splash-logo rect:nth-child(4) { animation-delay: .45s; }
+    .splash-logo rect:nth-child(5) { animation-delay: .6s; }
+    @keyframes eq { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+    @media (prefers-reduced-motion: reduce) { .splash-logo rect { animation: none; } }
+  </style>
 </head>
 <body>
+  <div id="splash" aria-label="주파수"><svg xmlns="http://www.w3.org/2000/svg" class="splash-logo" viewBox="0 0 740 580"><rect x="0.000" y="190.000" width="100.000" height="200.000" rx="50.000" fill="#FF3B8D"/><rect x="160.000" y="100.000" width="100.000" height="380.000" rx="50.000" fill="#34C759"/><rect x="320.000" y="0.000" width="100.000" height="580.000" rx="50.000" fill="#6366F1"/><rect x="480.000" y="100.000" width="100.000" height="380.000" rx="50.000" fill="#FFD93D"/><rect x="640.000" y="190.000" width="100.000" height="200.000" rx="50.000" fill="#FF8A3D"/></svg></div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var s = document.getElementById('splash');
+      s.classList.add('hide');
+      setTimeout(function () { s.remove(); }, 400);
+    });
+  </script>
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader

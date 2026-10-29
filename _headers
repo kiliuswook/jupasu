@@ -1,0 +1,6 @@
+/feed/img/*
+  Cache-Control: public, max-age=31536000, immutable
+/feed/content.*
+  Cache-Control: public, max-age=31536000, immutable
+/feed/manifest.json
+  Cache-Control: public, max-age=60

@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="/jupasu/">
-
   <meta charset="UTF-8">
+  <!--
+    같은 빌드가 두 곳에 올라간다: Cloudflare Pages(jupasu.pages.dev, 사이트 루트)와
+    GitHub Pages(kiliuswook.github.io/jupasu/). 그래서 <base> 를 빌드 때 박지 않고 여기서 정한다
+    (빌드는 --base-href 없이). GitHub Pages 에서 열리면 같은 경로·쿼리(?card= ?room= ?s=)의
+    jupasu.pages.dev 주소로 바로 넘긴다. 공유 미리보기는 크롤러가 JS 를 돌리지 않아 그대로 나온다.
+  -->
+  <script>
+    (function () {
+      var l = location, gh = /\.github\.io$/.test(l.hostname);
+      if (gh) {
+        l.replace('https://jupasu.pages.dev' + (l.pathname.replace(/^\/jupasu(?=\/|$)/, '') || '/') + l.search + l.hash);
+      }
+      document.write('<base href="' + (gh ? '/jupasu/' : '/') + '">');
+    })();
+  </script>
+
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="주파수 JUPASU · 세대의 말을 서로 배우는 곳">
@@ -25,11 +26,11 @@
   <!-- 공유 미리보기 -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="주파수 JUPASU">
-  <meta property="og:url" content="https://kiliuswook.github.io/jupasu/">
+  <meta property="og:url" content="https://jupasu.pages.dev/">
   <meta property="og:title" content="주파수 JUPASU">
   <meta property="og:description" content="세대의 말을 서로 배우는 곳. 10대부터 50대까지, 서로의 말 알아듣기 테스트와 친구 대결">
   <!-- og/default.jpg 는 tools/share_pages.py 가 만든다 -->
-  <meta property="og:image" content="https://kiliuswook.github.io/jupasu/og/default.jpg">
+  <meta property="og:image" content="https://jupasu.pages.dev/og/default.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">

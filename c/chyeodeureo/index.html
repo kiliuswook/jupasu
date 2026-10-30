@@ -2,19 +2,25 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script>
+// 옛 GitHub Pages 링크(kiliuswook.github.io/jupasu/c/{id}/)로 열리면 jupasu.pages.dev 의 같은 페이지로 넘긴다.
+if (/\.github\.io$/.test(location.hostname)) {
+  location.replace('https://jupasu.pages.dev' + location.pathname.replace(/^\/jupasu(?=\/|$)/, '') + location.search + location.hash);
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>안 나오면 쳐들어간다 — 10대의 말 | 주파수</title>
 <meta name="description" content="비트에 얹어 부르는 중독성 있는 애드리브이자 댄스 챌린지.">
 <meta name="theme-color" content="#14151C">
-<link rel="canonical" href="https://kiliuswook.github.io/jupasu/c/chyeodeureo/">
+<link rel="canonical" href="https://jupasu.pages.dev/c/chyeodeureo/">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="주파수 JUPASU">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:url" content="https://kiliuswook.github.io/jupasu/c/chyeodeureo/">
+<meta property="og:url" content="https://jupasu.pages.dev/c/chyeodeureo/">
 <meta property="og:title" content="안 나오면 쳐들어간다 — 10대의 말">
 <meta property="og:description" content="비트에 얹어 부르는 중독성 있는 애드리브이자 댄스 챌린지. 주파수에서 다른 세대의 말과 함께 보기">
-<meta property="og:image" content="https://kiliuswook.github.io/jupasu/og/chyeodeureo.jpg">
+<meta property="og:image" content="https://jupasu.pages.dev/og/chyeodeureo.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="10대의 말 안 나오면 쳐들어간다: 비트에 얹어 부르는 중독성 있는 애드리브이자 댄스 챌린지.">

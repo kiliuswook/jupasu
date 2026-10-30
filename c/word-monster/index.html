@@ -2,19 +2,25 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script>
+// 옛 GitHub Pages 링크(kiliuswook.github.io/jupasu/c/{id}/)로 열리면 jupasu.pages.dev 의 같은 페이지로 넘긴다.
+if (/\.github\.io$/.test(location.hostname)) {
+  location.replace('https://jupasu.pages.dev' + location.pathname.replace(/^\/jupasu(?=\/|$)/, '') + location.search + location.hash);
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>단어 습득하는 몬스터 — 10대의 말 | 주파수</title>
 <meta name="description" content="마음에 드는 표현을 주워 담아 저장한다는 해시태그 밈.">
 <meta name="theme-color" content="#14151C">
-<link rel="canonical" href="https://kiliuswook.github.io/jupasu/c/word-monster/">
+<link rel="canonical" href="https://jupasu.pages.dev/c/word-monster/">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="주파수 JUPASU">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:url" content="https://kiliuswook.github.io/jupasu/c/word-monster/">
+<meta property="og:url" content="https://jupasu.pages.dev/c/word-monster/">
 <meta property="og:title" content="단어 습득하는 몬스터 — 10대의 말">
 <meta property="og:description" content="마음에 드는 표현을 주워 담아 저장한다는 해시태그 밈. 주파수에서 다른 세대의 말과 함께 보기">
-<meta property="og:image" content="https://kiliuswook.github.io/jupasu/og/word-monster.jpg">
+<meta property="og:image" content="https://jupasu.pages.dev/og/word-monster.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="10대의 말 단어 습득하는 몬스터: 마음에 드는 표현을 주워 담아 저장한다는 해시태그 밈.">

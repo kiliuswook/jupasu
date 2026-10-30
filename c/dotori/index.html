@@ -2,19 +2,25 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script>
+// 옛 GitHub Pages 링크(kiliuswook.github.io/jupasu/c/{id}/)로 열리면 jupasu.pages.dev 의 같은 페이지로 넘긴다.
+if (/\.github\.io$/.test(location.hostname)) {
+  location.replace('https://jupasu.pages.dev' + location.pathname.replace(/^\/jupasu(?=\/|$)/, '') + location.search + location.hash);
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>도토리 — 30대의 말 | 주파수</title>
 <meta name="description" content="싸이월드에서 미니홈피 배경음악·스킨을 사던 사이버 머니. 1개 100원.">
 <meta name="theme-color" content="#14151C">
-<link rel="canonical" href="https://kiliuswook.github.io/jupasu/c/dotori/">
+<link rel="canonical" href="https://jupasu.pages.dev/c/dotori/">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="주파수 JUPASU">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:url" content="https://kiliuswook.github.io/jupasu/c/dotori/">
+<meta property="og:url" content="https://jupasu.pages.dev/c/dotori/">
 <meta property="og:title" content="도토리 — 30대의 말">
 <meta property="og:description" content="싸이월드에서 미니홈피 배경음악·스킨을 사던 사이버 머니. 1개 100원. 주파수에서 다른 세대의 말과 함께 보기">
-<meta property="og:image" content="https://kiliuswook.github.io/jupasu/og/dotori.jpg">
+<meta property="og:image" content="https://jupasu.pages.dev/og/dotori.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="30대의 말 도토리: 싸이월드에서 미니홈피 배경음악·스킨을 사던 사이버 머니. 1개 100원.">

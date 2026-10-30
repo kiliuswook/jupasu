@@ -2,19 +2,25 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<script>
+// 옛 GitHub Pages 링크(kiliuswook.github.io/jupasu/c/{id}/)로 열리면 jupasu.pages.dev 의 같은 페이지로 넘긴다.
+if (/\.github\.io$/.test(location.hostname)) {
+  location.replace('https://jupasu.pages.dev' + location.pathname.replace(/^\/jupasu(?=\/|$)/, '') + location.search + location.hash);
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>어이가 없네 — 20대의 말 | 주파수</title>
 <meta name="description" content="황당할 때 쓰는 영화 대사 유행어.">
 <meta name="theme-color" content="#14151C">
-<link rel="canonical" href="https://kiliuswook.github.io/jupasu/c/eoiga-eopne/">
+<link rel="canonical" href="https://jupasu.pages.dev/c/eoiga-eopne/">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="주파수 JUPASU">
 <meta property="og:locale" content="ko_KR">
-<meta property="og:url" content="https://kiliuswook.github.io/jupasu/c/eoiga-eopne/">
+<meta property="og:url" content="https://jupasu.pages.dev/c/eoiga-eopne/">
 <meta property="og:title" content="어이가 없네 — 20대의 말">
 <meta property="og:description" content="황당할 때 쓰는 영화 대사 유행어. 주파수에서 다른 세대의 말과 함께 보기">
-<meta property="og:image" content="https://kiliuswook.github.io/jupasu/og/eoiga-eopne.jpg">
+<meta property="og:image" content="https://jupasu.pages.dev/og/eoiga-eopne.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="20대의 말 어이가 없네: 황당할 때 쓰는 영화 대사 유행어.">

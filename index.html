@@ -62,6 +62,11 @@
     .splash-logo rect:nth-child(5) { animation-delay: .6s; }
     @keyframes eq { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
     @media (prefers-reduced-motion: reduce) { .splash-logo rect { animation: none; } }
+    #opened { position: fixed; left: 0; right: 0; bottom: 18%; text-align: center; color: #fff;
+              font: 600 16px -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+    #opened[hidden] { display: none; }
+    #opened a { display: inline-block; margin-top: 10px; color: #14151C; background: #fff; border-radius: 99px;
+                padding: 12px 22px; font-weight: 800; text-decoration: none; }
   </style>
 </head>
 <body>
@@ -81,6 +86,46 @@
     For more details:
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
-  <script src="flutter_bootstrap.js" async></script>
+  <!--
+    대결 초대 링크(?room=코드)를 Android 휴대폰 브라우저에서 열면 앱을 먼저 찾는다
+    (intent://open?room=코드 → MainActivity.kt → lib/share.dart 의 AppLink → 그 방 대결 화면).
+    앱이 없으면 브라우저가 같은 주소에 web=1 을 붙여 다시 열고, 그때는 웹 앱으로 그 방에 들어간다.
+    앱이 열리면 이 탭은 웹 앱을 띄우지 않는다(같은 사람이 웹으로 한 번 더 들어가지 않게).
+    앱 열기가 막힌 브라우저(일부 인앱 브라우저)는 1.5초 뒤 웹으로 계속한다.
+  -->
+  <div id="opened" hidden>
+    <p>주파수 앱에서 대결방을 열었어요.</p>
+    <a href="#">웹에서 계속하기</a>
+  </div>
+  <script>
+    (function () {
+      var booted = false, opened = false;
+      function boot() {
+        if (booted) return;
+        booted = true;
+        var s = document.createElement('script');
+        s.src = 'flutter_bootstrap.js';
+        s.async = true;
+        document.body.appendChild(s);
+      }
+      var q = new URLSearchParams(location.search), room = q.get('room');
+      if (!room || q.has('web') || !/Android/i.test(navigator.userAgent) || /\.github\.io$/.test(location.hostname)) {
+        return boot();
+      }
+      q.set('web', '1');
+      var back = location.origin + location.pathname + '?' + q.toString() + location.hash;
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) { opened = true; return; }
+        if (!opened || booted) return;
+        // 앱에서 돌아왔을 때: 웹으로 이어 갈지 고르게 한다
+        var n = document.getElementById('opened');
+        n.querySelector('a').href = back;
+        n.hidden = false;
+      });
+      setTimeout(function () { if (!opened && !document.hidden) boot(); }, 1500);
+      location.href = 'intent://open?room=' + encodeURIComponent(room) + '#Intent;scheme=jupasu;package=app.jupasu;' +
+        'S.browser_fallback_url=' + encodeURIComponent(back) + ';end';
+    })();
+  </script>
 </body>
 </html>

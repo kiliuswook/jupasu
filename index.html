@@ -98,9 +98,11 @@
       },
       kakaoKey: '04a92e7040b68863dcd6a8abdc89dc31',
       kakaoReady: function () {
+        // Kakao.Share 는 init 뒤에야 생긴다
         var K = window.Kakao;
-        if (!K || !K.Share) return false;
-        try { if (!K.isInitialized()) K.init(window.jupasuShare.kakaoKey); return true; } catch (e) { return false; }
+        if (!K || !K.init) return false;
+        try { if (!K.isInitialized()) K.init(window.jupasuShare.kakaoKey); } catch (e) { return false; }
+        return !!K.Share;
       },
       // 카드 이미지를 카카오에 올린다. 결과는 JSON 문자열 {url,w,h}, 실패하면 ''.
       kakaoUpload: function (bytes) {

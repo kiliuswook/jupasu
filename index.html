@@ -48,6 +48,88 @@
   <title>주파수 JUPASU</title>
   <link rel="manifest" href="manifest.json">
 
+  <!--
+    웹 공유(lib/web_share_web.dart 가 부른다). 앱과 같게 "카드 이미지 + 글 + 링크"를 보낸다.
+    - share: 누른 순간(사용자 동작 안)에 글·링크를 클립보드에 복사하고, 이미지+글로 공유 창을 연다.
+      PC 공유 창·카카오톡은 이미지만 받고 글을 버리는 곳이 많아, 복사해 둔 글을 붙여 넣게 한다.
+      공유 창이 없는 브라우저는 'none' 을 돌려주고, 그러면 이미지를 내려받는다.
+    - kakao*: 카카오 JavaScript SDK(카카오톡 공유). PC 는 카카오 공유 창(팝업), 모바일은 카카오톡 앱.
+      앱 키는 lib/share.dart KakaoShare.javaScriptAppKey 와 같다(카카오 개발자 앱 "주파수", 웹 도메인 jupasu.pages.dev).
+  -->
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous" async></script>
+  <script>
+    window.jupasuShare = {
+      copy: function (text) {
+        try {
+          if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).catch(function () {}); return true; }
+        } catch (e) {}
+        try {
+          var t = document.createElement('textarea');
+          t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+          document.body.appendChild(t); t.select();
+          var ok = document.execCommand('copy'); t.remove(); return ok;
+        } catch (e) { return false; }
+      },
+      // 결과: 'shared'(이미지+글) · 'text'(글만) · 'cancel' · 'none'(공유 창 없음) · 'error'
+      share: function (bytes, name, text) {
+        var file = new File([bytes], name, { type: 'image/png' });
+        try {
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            return navigator.share({ files: [file], text: text }).then(function () { return 'shared'; }, window.jupasuShare._err);
+          }
+          if (navigator.share) {
+            return navigator.share({ text: text }).then(function () { return 'text'; }, window.jupasuShare._err);
+          }
+        } catch (e) { return Promise.resolve('error'); }
+        return Promise.resolve('none');
+      },
+      shareText: function (text) {
+        if (!navigator.share) return Promise.resolve('none');
+        try { return navigator.share({ text: text }).then(function () { return 'text'; }, window.jupasuShare._err); }
+        catch (e) { return Promise.resolve('error'); }
+      },
+      _err: function (e) { return e && e.name === 'AbortError' ? 'cancel' : 'error'; },
+      download: function (bytes, name) {
+        var url = URL.createObjectURL(new Blob([bytes], { type: 'image/png' }));
+        var a = document.createElement('a');
+        a.href = url; a.download = name; a.style.display = 'none';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+      },
+      kakaoKey: '04a92e7040b68863dcd6a8abdc89dc31',
+      kakaoReady: function () {
+        var K = window.Kakao;
+        if (!K || !K.Share) return false;
+        try { if (!K.isInitialized()) K.init(window.jupasuShare.kakaoKey); return true; } catch (e) { return false; }
+      },
+      // 카드 이미지를 카카오에 올린다. 결과는 JSON 문자열 {url,w,h}, 실패하면 ''.
+      kakaoUpload: function (bytes) {
+        if (!window.jupasuShare.kakaoReady()) return Promise.resolve('');
+        try {
+          var dt = new DataTransfer();
+          dt.items.add(new File([bytes], 'jupasu.png', { type: 'image/png' }));
+          return window.Kakao.Share.uploadImage({ file: dt.files }).then(function (r) {
+            var o = r.infos.original;
+            return JSON.stringify({ url: o.url, w: o.width, h: o.height });
+          }, function (e) { console.warn('kakaoUpload', e); return ''; });
+        } catch (e) { console.warn('kakaoUpload', e); return Promise.resolve(''); }
+      },
+      // 피드 메시지를 보낸다. o: {title, desc, img, w, h, link, params}. 누른 순간에 불러야 PC 팝업이 막히지 않는다.
+      kakaoSend: function (json) {
+        if (!window.jupasuShare.kakaoReady()) return false;
+        var o = JSON.parse(json);
+        var link = { webUrl: o.link, mobileWebUrl: o.link };
+        if (o.params) { link.androidExecutionParams = o.params; link.iosExecutionParams = o.params; }
+        var content = { title: o.title, description: o.desc, imageUrl: o.img, link: link };
+        if (o.w && o.h) { content.imageWidth = o.w; content.imageHeight = o.h; }
+        try {
+          window.Kakao.Share.sendDefault({ objectType: 'feed', content: content, buttons: [{ title: '앱에서 보기', link: link }] });
+          return true;
+        } catch (e) { console.warn('kakaoSend', e); return false; }
+      }
+    };
+  </script>
+
   <!-- 실행 화면: Flutter 가 첫 화면을 그리면 걷어 낸다 -->
   <style>
     html, body { margin: 0; height: 100%; background: #000; }

@@ -54,8 +54,8 @@
       이미지 파일을 함께 넣으면 PC(Windows) 공유 창의 카카오톡·디스코드·복사가 글을 버리거나 아예 받지 못해서
       (2026-11-18 원더 님 확인) 이미지는 "이미지 저장"(download)으로 따로 둔다.
       누른 순간에 글을 클립보드에도 복사해 두고, 공유 창이 없는 브라우저는 'none' 을 돌려준다.
-    - kakao*: 카카오 JavaScript SDK(카카오톡 공유). 휴대폰에서만 쓴다(PC 는 카카오 웹 로그인을 다시 요구해서,
-      공유 창에서 카카오톡 PC 앱을 고르게 한다). 앱 키는 lib/share.dart KakaoShare.javaScriptAppKey 와 같다
+    - kakao*: 카카오 JavaScript SDK(카카오톡 공유). PC 는 카카오 공유 팝업(카카오 웹 로그인 필요), 휴대폰은 카카오톡 앱.
+      메시지 버튼은 "구글 플레이"·"앱스토어". 앱 키는 lib/share.dart KakaoShare.javaScriptAppKey 와 같다
       (카카오 개발자 앱 "주파수", 웹 도메인 jupasu.pages.dev).
   -->
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous" async></script>
@@ -103,7 +103,6 @@
         return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform));
       },
       kakaoReady: function () {
-        if (!window.jupasuShare.mobile()) return false;
         // Kakao.Share 는 init 뒤에야 생긴다
         var K = window.Kakao;
         if (!K || !K.init) return false;
@@ -131,8 +130,13 @@
         var content = { title: o.title, description: o.desc, imageUrl: o.img, link: link };
         if (o.w && o.h) { content.imageWidth = o.w; content.imageHeight = o.h; }
         try {
+          // 버튼은 두 개까지: 구글 플레이 · 앱스토어. 카카오 메시지에는 등록한 도메인 주소만 넣을 수 있어서
+          // get/?to=play|ios 를 거쳐 스토어로 간다. 메시지(카드)를 누르면 웹 링크(앱이 있으면 앱)로 간다.
           var buttons = [{ title: '앱에서 보기', link: link }];
-          if (o.get) buttons.push({ title: '앱 받기', link: { webUrl: o.get, mobileWebUrl: o.get } });
+          if (o.get) buttons = [
+            { title: '구글 플레이', link: { webUrl: o.get + '?to=play', mobileWebUrl: o.get + '?to=play' } },
+            { title: '앱스토어', link: { webUrl: o.get + '?to=ios', mobileWebUrl: o.get + '?to=ios' } }
+          ];
           window.Kakao.Share.sendDefault({ objectType: 'feed', content: content, buttons: buttons });
           return true;
         } catch (e) { console.warn('kakaoSend', e); return false; }

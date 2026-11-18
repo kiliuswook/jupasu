@@ -6,7 +6,7 @@
   <title>주파수 앱 받기</title>
   <!--
     "앱 받기" 주소(카카오톡 공유 메시지의 버튼 등). 카카오 메시지에는 등록한 도메인(jupasu.pages.dev)만 넣을 수 있어서
-    여기서 기기에 맞는 스토어로 보낸다: Android → Google Play, iPhone·iPad → App Store, 그 밖에는 두 배지.
+    여기서 스토어로 보낸다: ?to=play → Google Play, ?to=ios → App Store, 없으면 기기에 맞게 Android → Google Play, iPhone·iPad → App Store, 그 밖에는 두 배지.
     주소는 lib/store.dart playStoreUrl·appStoreUrl, tools/share_pages.py PLAY·APP_STORE 와 같게 둔다.
   -->
   <meta property="og:title" content="주파수 앱 받기">
@@ -14,10 +14,12 @@
   <meta property="og:image" content="https://jupasu.pages.dev/og/default.jpg">
   <script>
     (function () {
-      var ua = navigator.userAgent;
+      var ua = navigator.userAgent, to = new URLSearchParams(location.search).get('to');
       var play = 'https://play.google.com/store/apps/details?id=app.jupasu';
       var ios = 'https://apps.apple.com/kr/app/id6835754375';
-      if (/Android/i.test(ua)) location.replace(play);
+      if (to === 'play') location.replace(play);
+      else if (to === 'ios') location.replace(ios);
+      else if (/Android/i.test(ua)) location.replace(play);
       else if (/iPhone|iPad|iPod/i.test(ua) || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform))) location.replace(ios);
     })();
   </script>

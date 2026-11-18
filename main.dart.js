@@ -94893,7 +94893,7 @@ i=t.N
 i=A.m(i,i)
 i.m(0,"s",""+l)
 if(o.length!==0)i.m(0,"n",o)
-n.a23("\ub118\uc744 \uc218 \uc788\uc5b4? 1\ubd84\uc774\uba74 \ub3c4\uc804 \ub05d!","https://jupasu.pages.dev/og/default.jpg",j,i,"\ud83c\udfaf "+m+" "+k+"\uc810")
+n.a23("\ub118\uc744 \uc218 \uc788\uc5b4? 1\ubd84\uc774\uba74 \ub3c4\uc804 \ub05d!\n\ud83d\udcf2 \uc8fc\ud30c\uc218 \uc571: \uad6c\uae00 \ud50c\ub808\uc774 \xb7 \uc571\uc2a4\ud1a0\uc5b4","https://jupasu.pages.dev/og/default.jpg",j,i,"\ud83c\udfaf "+m+" "+k+"\uc810")
 s=1
 break
 case 1:return A.q(q,r)}})
@@ -95593,7 +95593,7 @@ k=k>=50?"50\ub300+":""+k+"\ub300"
 o=A.da("https://jupasu.pages.dev/c/"+l.a+"/",0,null)
 n=t.N
 n=A.a3(["card",p.a.c.a],n,n)
-m.a23(l.e+"\n\ub2e4\ub978 \uc138\ub300\ub294 \ubb50\ub77c\uace0 \ud560\uae4c?","https://jupasu.pages.dev/og/"+p.a.c.a+".jpg",o,n,"["+k+"\uc758 \ub9d0] "+l.b)
+m.a23(l.e+"\n\ud83d\udcf2 \uc8fc\ud30c\uc218 \uc571: \uad6c\uae00 \ud50c\ub808\uc774 \xb7 \uc571\uc2a4\ud1a0\uc5b4","https://jupasu.pages.dev/og/"+p.a.c.a+".jpg",o,n,"["+k+"\uc758 \ub9d0] "+l.b)
 s=1
 break
 case 1:return A.q(q,r)}})

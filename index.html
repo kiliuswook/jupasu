@@ -49,12 +49,14 @@
   <link rel="manifest" href="manifest.json">
 
   <!--
-    웹 공유(lib/web_share_web.dart 가 부른다). 앱과 같게 "카드 이미지 + 글 + 링크"를 보낸다.
-    - share: 누른 순간(사용자 동작 안)에 글·링크를 클립보드에 복사하고, 이미지+글로 공유 창을 연다.
-      PC 공유 창·카카오톡은 이미지만 받고 글을 버리는 곳이 많아, 복사해 둔 글을 붙여 넣게 한다.
-      공유 창이 없는 브라우저는 'none' 을 돌려주고, 그러면 이미지를 내려받는다.
-    - kakao*: 카카오 JavaScript SDK(카카오톡 공유). PC 는 카카오 공유 창(팝업), 모바일은 카카오톡 앱.
-      앱 키는 lib/share.dart KakaoShare.javaScriptAppKey 와 같다(카카오 개발자 앱 "주파수", 웹 도메인 jupasu.pages.dev).
+    웹 공유(lib/web_share_web.dart 가 부른다).
+    - shareText: 글(점수·웹 링크·구글 플레이·앱스토어)만으로 공유 창을 연다. 링크 미리보기가 카드 그림(og)을 보여 준다.
+      이미지 파일을 함께 넣으면 PC(Windows) 공유 창의 카카오톡·디스코드·복사가 글을 버리거나 아예 받지 못해서
+      (2026-11-18 원더 님 확인) 이미지는 "이미지 저장"(download)으로 따로 둔다.
+      누른 순간에 글을 클립보드에도 복사해 두고, 공유 창이 없는 브라우저는 'none' 을 돌려준다.
+    - kakao*: 카카오 JavaScript SDK(카카오톡 공유). 휴대폰에서만 쓴다(PC 는 카카오 웹 로그인을 다시 요구해서,
+      공유 창에서 카카오톡 PC 앱을 고르게 한다). 앱 키는 lib/share.dart KakaoShare.javaScriptAppKey 와 같다
+      (카카오 개발자 앱 "주파수", 웹 도메인 jupasu.pages.dev).
   -->
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous" async></script>
   <script>
@@ -97,7 +99,11 @@
         setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
       },
       kakaoKey: '04a92e7040b68863dcd6a8abdc89dc31',
+      mobile: function () {
+        return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform));
+      },
       kakaoReady: function () {
+        if (!window.jupasuShare.mobile()) return false;
         // Kakao.Share 는 init 뒤에야 생긴다
         var K = window.Kakao;
         if (!K || !K.init) return false;
@@ -116,7 +122,7 @@
           }, function (e) { console.warn('kakaoUpload', e); return ''; });
         } catch (e) { console.warn('kakaoUpload', e); return Promise.resolve(''); }
       },
-      // 피드 메시지를 보낸다. o: {title, desc, img, w, h, link, params}. 누른 순간에 불러야 PC 팝업이 막히지 않는다.
+      // 피드 메시지를 보낸다. o: {title, desc, img, w, h, link, params, get(앱 받기 주소)}. 누른 순간에 불러야 PC 팝업이 막히지 않는다.
       kakaoSend: function (json) {
         if (!window.jupasuShare.kakaoReady()) return false;
         var o = JSON.parse(json);
@@ -125,7 +131,9 @@
         var content = { title: o.title, description: o.desc, imageUrl: o.img, link: link };
         if (o.w && o.h) { content.imageWidth = o.w; content.imageHeight = o.h; }
         try {
-          window.Kakao.Share.sendDefault({ objectType: 'feed', content: content, buttons: [{ title: '앱에서 보기', link: link }] });
+          var buttons = [{ title: '앱에서 보기', link: link }];
+          if (o.get) buttons.push({ title: '앱 받기', link: { webUrl: o.get, mobileWebUrl: o.get } });
+          window.Kakao.Share.sendDefault({ objectType: 'feed', content: content, buttons: buttons });
           return true;
         } catch (e) { console.warn('kakaoSend', e); return false; }
       }

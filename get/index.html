@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>주파수 앱 받기</title>
+  <!--
+    "앱 받기" 주소(카카오톡 공유 메시지의 버튼 등). 카카오 메시지에는 등록한 도메인(jupasu.pages.dev)만 넣을 수 있어서
+    여기서 기기에 맞는 스토어로 보낸다: Android → Google Play, iPhone·iPad → App Store, 그 밖에는 두 배지.
+    주소는 lib/store.dart playStoreUrl·appStoreUrl, tools/share_pages.py PLAY·APP_STORE 와 같게 둔다.
+  -->
+  <meta property="og:title" content="주파수 앱 받기">
+  <meta property="og:description" content="세대의 말을 서로 배우는 곳">
+  <meta property="og:image" content="https://jupasu.pages.dev/og/default.jpg">
+  <script>
+    (function () {
+      var ua = navigator.userAgent;
+      var play = 'https://play.google.com/store/apps/details?id=app.jupasu';
+      var ios = 'https://apps.apple.com/kr/app/id6835754375';
+      if (/Android/i.test(ua)) location.replace(play);
+      else if (/iPhone|iPad|iPod/i.test(ua) || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform))) location.replace(ios);
+    })();
+  </script>
+  <style>
+    html, body { margin: 0; height: 100%; background: #14151C; color: #fff;
+                 font: 600 16px -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+    main { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
+    .stores { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .stores img { height: 46px; }
+    a.home { color: #fff; opacity: .7; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <svg xmlns="http://www.w3.org/2000/svg" width="74" height="58" viewBox="0 0 740 580" aria-label="주파수"><rect x="0" y="190" width="100" height="200" rx="50" fill="#FF3B8D"/><rect x="160" y="100" width="100" height="380" rx="50" fill="#34C759"/><rect x="320" y="0" width="100" height="580" rx="50" fill="#6366F1"/><rect x="480" y="100" width="100" height="380" rx="50" fill="#FFD93D"/><rect x="640" y="190" width="100" height="200" rx="50" fill="#FF8A3D"/></svg>
+    <p>주파수 앱 받기</p>
+    <div class="stores">
+      <a href="https://play.google.com/store/apps/details?id=app.jupasu"><img src="../badges/google-play-ko.png" alt="Google Play에서 다운로드"></a>
+      <a href="https://apps.apple.com/kr/app/id6835754375"><img src="../badges/app-store-ko.svg" alt="App Store에서 다운로드하기"></a>
+    </div>
+    <a class="home" href="../">웹에서 둘러보기</a>
+  </main>
+</body>
+</html>
